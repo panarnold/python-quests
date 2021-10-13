@@ -4,12 +4,25 @@ class EmployeeRecord:
 
     def __init__(self):
         self.record.append(HREmployee('Adam', 'Małysz'))
-        self.record.append(ITEmployee('Kamik', 'Stoch', 'Zniszczenie Świata'))
+        self.record.append(ITEmployee('Kamil', 'Stoch', 'Zniszczenie Świata'))
+        self.record.append(Manager('Apoloniusz', 'Tajner'))
 
-    @classmethod
-    def present(cls):
-        for employee in cls.record:
+        
+
+
+    
+    def present(self):
+        for employee in self.record:
             print(employee)
+
+    def add_employees_to_manager(self):
+        for employee in self.record:
+            if type(employee) is Manager:
+                employee.managed = [employee for employee in self.record if type(employee) is not Manager]
+    
+    
+
+        
 
 
 class Employee:
@@ -48,11 +61,24 @@ class ITEmployee(Employee):
     def __str__(self):
         return super().__str__() + f', Position: {self.position}, Current Project: {self.project}'
 
+class Manager(Employee):
+
+    position = 'Manager'
+
+    managed = []
+
+    def __init__(self, name, surname):
+        Employee.__init__(self, name, surname)
+
+    def __str__(self):
+        return super().__str__() + f', Position: {self.position}, Manager of {self.managed}'
+
 
 
 
 
 e = EmployeeRecord()
+e.add_employees_to_manager()
 e.present()
 
 
